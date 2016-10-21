@@ -1,0 +1,35 @@
+# configuration file for Travis Ci
+# Coert Vonk, 2016
+
+language: generic
+env:
+  global:
+    - IDE_VERSION=1.6.12
+  matrix:
+    - SKETCH="" BOARD="esp8266:esp8266:huzzah:FlashSize=4M3M,CpuFrequency=80"
+
+before_install:
+  - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16
+  - sleep 3
+  - export DISPLAY=:1.0
+  - wget http://downloads.arduino.cc/arduino-$IDE_VERSION-linux64.tar.xz
+  - tar xf arduino-$IDE_VERSION-linux64.tar.xz
+  - mv arduino-$IDE_VERSION $HOME/arduino-ide
+  - export PATH=$PATH:$HOME/arduino-ide  
+  - if [[ "$BOARD" =~ "esp8266:esp8266:" ]]; then
+      arduino --pref "boardsmanager.additional.urls=http://arduino.esp8266.com/stable/package_esp8266com_index.json" --install-boards esp8266:esp8266;
+      arduino --pref "boardsmanager.additional.urls=" --save-prefs;
+    fi
+  - arduino --pref "boardsmanager.additional.urls=https://adafruit.github.io/arduino-board-index/package_adafruit_index.json" --save-prefs
+  - mkdir $HOME/.arduino15
+  - wget http://downloads.arduino.cc/libraries/library_index.json -O $HOME/.arduino15/library_index.json
+
+install:
+  - arduino --install-library "Adafruit SSD1306"
+  - arduino --install-library "Adafruit GFX Library"
+  - git clone https://github.com/cvonk/esp8266-WiFiClientSecureRedirect.git $HOME/Arduino/libraries/esp8266-WiFiClientSecureRedirect
+# - mkdir -p $HOME/Arduino/libraries/
+# - ln -s $PWD $HOME/Arduino/libraries/.
+
+script:
+  - arduino --verify --board $BOARD $PWD/$SKETCH/$SKETCH.ino
