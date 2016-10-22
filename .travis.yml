@@ -1,5 +1,5 @@
-# configuration file for Travis Ci
-# Coert Vonk, 2016
+# configuration file for Travis Cl
+# 2016, Coert Vonk
 
 language: generic
 env:
