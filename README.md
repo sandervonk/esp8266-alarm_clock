@@ -1,4 +1,4 @@
-# esp8266-alarm_clock
+# esp8266-alarm_clock [![Build Status](https://travis-ci.org/sandervonk/esp8266-alarm_clock.svg?branch=master)](https://travis-ci.org/sandervonk/esp8266-alarm_clock#)
 ##There is no better feeling than not having to set an alarm
 
 ESP8266 based alarm clock. This project gets the time and your next alarm in Google Calendar from the Internet and displays this information. The alarm will go off and the board will beep and vibrate.
