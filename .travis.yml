@@ -6,7 +6,7 @@ env:
   global:
     - IDE_VERSION=1.6.12
   matrix:
-    - SKETCH="" BOARD="esp8266:esp8266:huzzah:FlashSize=4M3M,CpuFrequency=80"
+    - SKETCH="alarm_clock" BOARD="esp8266:esp8266:huzzah:FlashSize=4M3M,CpuFrequency=80"
 
 before_install:
   - /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_1.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :1 -ac -screen 0 1280x1024x16
