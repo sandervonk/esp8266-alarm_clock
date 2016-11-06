@@ -32,8 +32,6 @@ struct {
 	char const * const passwd;
 } _wifi = { "your_wifi_SSID", "your_wifi_key" };
 
-//
-
 #define DPRINT(...)    Serial.print(__VA_ARGS__)
 #define DPRINTLN(...)  Serial.println(__VA_ARGS__)
 
@@ -44,10 +42,6 @@ int8_t const BUTTON_B_GPIO = 16;
 int8_t const BUTTON_C_GPIO = 2;
 int8_t const OLED_RESET_GPIO = 3;
 
-static uint8_t allSyncBitmap[] = {
-	0x00, 0x00, 0x07, 0xe0, 0x1f, 0xf0, 0x3c, 0x38, 0x30, 0x1e, 0x70, 0x0e, 0x00, 0x1e, 0x00, 0x00,
-	0x00, 0x00, 0x78, 0x00, 0x70, 0x0e, 0x78, 0x0c, 0x1c, 0x3c, 0x0f, 0xf8, 0x07, 0xe0, 0x00, 0x00
-};
 static uint8_t timeSyncBitmap[] = {
 	0x00, 0x00, 0x07, 0xe0, 0x1f, 0xf0, 0x3c, 0x38, 0x30, 0x1e, 0x70, 0x0e, 0x00, 0x1e, 0x00, 0x00
 };
@@ -118,12 +112,12 @@ loop()
 		oled.clearDisplay();
 		oled.setCursor(0, 0);
 
-		if (time.status == NtpTime::timeSet)
+		if (time.status != NtpTime::timeNeedsSync)
 		{
 			oled.drawBitmap(SSD1306_LCDWIDTH - 16, 0, timeSyncBitmap, 16, 8, WHITE);
 		}
 
-		if (alarm.status == GoogleCalEvent::alarmSet)
+		if (alarm.status != GoogleCalEvent::alarmNeedsSync)
 		{
 			oled.drawBitmap(SSD1306_LCDWIDTH - 16, 8, alarmSyncBitmap, 16, 8, WHITE);
 		}
