@@ -46,7 +46,7 @@ function doGet(e) {
 
   // open calendar
 
-  var cal = CalendarApp.getCalendarById('your.e.mail@gmail.com');  // UPDATE !!!!
+  var cal = CalendarApp.getCalendarById('your.e.mail@gmail.com');
   if (cal == undefined) {
     return ContentService.createTextOutput("no access to calendar");
   }
@@ -69,9 +69,6 @@ function doGet(e) {
   
   // select the alarm event
 
-  Logger.log("firstAlarmToday=" + firstAlarmToday.getTitle());
-  Logger.log("alarmTime=" + _alarmTime(firstAlarmToday));
-  Logger.log("now=" + now);
   const event = firstAlarmToday != undefined && _alarmTime(firstAlarmToday) > now ? firstAlarmToday : firstAlarmTomorrow;
 
   // print event details that should trigger alarm
