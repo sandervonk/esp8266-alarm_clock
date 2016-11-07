@@ -3,7 +3,7 @@
 #include <WiFiUdp.h>
 #include <time.h>
 
-#define TIME_INCLUDEDATE (0)
+#define TIME_INCLUDEDATE (1)
 
 class NtpTime : WiFiUDP {
 public:
@@ -31,6 +31,11 @@ public:
 	void begin(void);
 	ntptime_t const getTime();
 	void tick(void);  // maintenance, should be called every 100 msec or so from loop()
+#if TIME_INCLUDEDATE
+	char const * const wdayString(uint8_t const wday);
+	char const * const monthString(uint8_t const month);
+	boolean isLeapYear(int year);
+#endif
 
 private:
 	char const * host;

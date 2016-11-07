@@ -111,7 +111,7 @@ NtpTime::tick(void)
 	if (state == WAIT4RESPONSE) {
 		time_t const time = receiveTimeResponse();
 		if (time) {
-			setSyncInterval(60);
+			setSyncInterval(30 * 60); // [s]
 			setTime(time);
 			DPRINTLN("done");
 			status = timeSet;
@@ -134,6 +134,36 @@ NtpTime::tick(void)
 		state = WAIT4RESPONSE;
 	}
 }
+
+#if TIME_INCLUDEDATE
+
+boolean 
+NtpTime::isLeapYear(int year) {
+	return ((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0);
+}
+
+char const * const
+NtpTime::wdayString(uint8_t const wday)
+{
+	char * wdays[] = { "error", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+	if (wday < sizeof(wdays) / sizeof(wdays[0])) {
+		return wdays[wday];
+	}
+	return wdays[0];
+}
+
+char const * const
+NtpTime::monthString(uint8_t const month)
+{
+	char * months[] = { "error", "January", "February", "March", "April", "May", "June", "July", "August", "September",
+	"October", "November", "December" };
+	if (month < sizeof(months) / sizeof(months[0])) {
+		return months[month];
+	}
+	return months[0];
+}
+
+#endif
 
 NtpTime::ntptime_t const
 NtpTime::getTime()

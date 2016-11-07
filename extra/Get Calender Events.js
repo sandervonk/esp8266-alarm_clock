@@ -12,7 +12,14 @@ function _alarmTime(event) {
   if (reminders.length == 0) {
     reminder = 0;   
   }
-  date = new Date(event.getStartTime().getTime()-reminders[0]*60*1000);
+  var longestReminder = 0;
+  for (var ii=0; ii < reminders.length; ii++) {
+    if (reminders[ii] > longestReminder) {
+      longestReminder = reminders[ii];
+    }
+  }
+  
+  date = new Date(event.getStartTime().getTime()-longestReminder*60*1000);
   return date;
 }
 
