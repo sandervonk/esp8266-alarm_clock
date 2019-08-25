@@ -7,9 +7,9 @@
 
 class NtpTime : WiFiUDP {
 public:
-	NtpTime(char const * const host,
-		int const timeZone, // -5=Eastern US, -4=Eastern US DST, -8=Pacific US, -7=Pacific US DST
-		unsigned int const localPort);
+	NtpTime( char const * const host_, // must be static alloc'ed
+                int const timeZone_, // -5=Eastern US, -4=Eastern US DST, -8=Pacific US, -7=Pacific US DST
+                unsigned int const localPort_ );
 	~NtpTime();
 	typedef enum {
 		timeNotSet, timeNeedsSync, timeSet
@@ -32,9 +32,9 @@ public:
 	ntptime_t const getTime();
 	void tick(void);  // maintenance, should be called every 100 msec or so from loop()
 #if TIME_INCLUDEDATE
-	char const * const wdayString(uint8_t const wday);
-	char const * const monthString(uint8_t const month);
-	boolean isLeapYear(int year);
+	char * wdayString(uint8_t const wday);
+	char * monthString(uint8_t const month);
+	boolean isLeapYear(int const year);
 #endif
 
 private:

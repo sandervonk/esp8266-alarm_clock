@@ -11,6 +11,12 @@
  * All text above must be included in any redistribution
  */
 
+#define USING_AXTLS
+#include <ESP8266WiFi.h>
+//#include <WiFiClientSecure.h>
+#include "WiFiClientSecureAxTLS.h"
+using namespace axTLS;
+
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecureRedirect.h>
 #include "GoogleCalEvent.h"
@@ -68,19 +74,19 @@ GoogleCalEvent::getAlarm()
 	return alarm;
 }
 
-uint8_t const  // returns 0 on success
+uint8_t  // returns 0 on success
 GoogleCalEvent::connect()
 {
-	return client.connect(dstHost, dstPort) != 1;
+	return client.connect(dstHost, dstPort, dstFingerprint) != 1;
 }
 
-uint8_t const  // returns 0 on success
+uint8_t // returns 0 on success
 GoogleCalEvent::sendAlarmRequest()
 {
-	return client.request(dstPath, dstHost, readTimeout, dstFingerprint, redirFingerprint);
+	return client.request(dstPath, dstHost, readTimeout, redirFingerprint);
 }
 
-uint8_t const  // returns 0 on success
+uint8_t // returns 0 on success
 GoogleCalEvent::receiveAlarmResponse()
 {
 	char * const line = this->alarm.title;  // reuse eventTitle buffer
@@ -92,7 +98,7 @@ GoogleCalEvent::receiveAlarmResponse()
 	bool const success = len1 && len2 && len3;
 
 	client.stop();
-	return !success;
+	return (!success);
 }
 
 void
@@ -116,7 +122,7 @@ GoogleCalEvent::tick()
 			Serial.flush();
 			setSyncInterval(0);
 			client.stop();
-			state = WAIT4SYNCINTERVAL;
+			state = ALARMUNKNOWN;
 		}
 
 		uint8_t error = 0;
@@ -142,7 +148,7 @@ GoogleCalEvent::tick()
 			case WAIT4RESPONSE:
 				if (client.response()) {
 					if (!(error = receiveAlarmResponse())) {
-						setSyncInterval(5 * 60);  // [s]
+						setSyncInterval(15 * 60);  // [s]
 						DPRINTLN("done");
 						status = alarmSet;
 						state = WAIT4SYNCINTERVAL;

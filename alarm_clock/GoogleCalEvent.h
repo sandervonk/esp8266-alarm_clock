@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ESP8266WiFi.h>
-#include <WiFiClientSecure.h>
 #include <WiFiClientSecureRedirect.h>
 
 class GoogleCalEvent {
@@ -43,9 +42,9 @@ class GoogleCalEvent {
 		10000   // WAIT4RESPONSE (3)
 	};
 	uint32_t beginWait;
-	uint8_t const connect();
-	uint8_t const sendAlarmRequest();
-	uint8_t const receiveAlarmResponse();
+	uint8_t connect();
+	uint8_t sendAlarmRequest();
+	uint8_t receiveAlarmResponse();
 	uint32_t syncInterval = 0;  // [msec]
 	uint32_t nextSyncTime = 0;  // [msec]
 	void setSyncInterval(uint32_t const interval_); // [msec]

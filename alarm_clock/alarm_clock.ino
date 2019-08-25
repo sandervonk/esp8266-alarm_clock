@@ -10,6 +10,13 @@
  * All text above must be included in any redistribution
  */
 
+#define USING_AXTLS
+#include <ESP8266WiFi.h>
+//#include <WiFiClientSecure.h>
+#include "WiFiClientSecureAxTLS.h"
+using namespace axTLS;
+
+
 #include <ESP8266WiFi.h>
 #include <WiFiClientSecureRedirect.h>  // https://github.com/cvonk/esp8266-WiFiClientSecureRedirect
 #include <WiFiUdp.h>
@@ -50,7 +57,7 @@ static uint8_t alarmSyncBitmap[] = {
 };
 
 Adafruit_SSD1306 oled(OLED_RESET_GPIO);
-NtpTime ntpTime("0.north-america.pool.ntp.org", -7, 8888);
+NtpTime ntpTime("0.north-america.pool.ntp.org", -7, 8888);  // -7 Pacific Daylight Savings, -8 Pacific Standard Time
 GoogleCalEvent googleCalEvent;
 Buzzer buzzer(BUZZER_GPIO, HAPTIC_GPIO, 1000 /*ms*/, 500 /*ms*/, 1000 /*Hz*/);
 

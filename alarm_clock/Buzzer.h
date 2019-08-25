@@ -1,6 +1,7 @@
 #pragma once
 #include <ESP8266WiFi.h>        // http://arduino.esp8266.com/stable/package_esp8266com_index.json (board manager)
 
+#undef TIME_INCLUDEDATE
 #define TIME_INCLUDEDATE (0)
 
 class Buzzer {

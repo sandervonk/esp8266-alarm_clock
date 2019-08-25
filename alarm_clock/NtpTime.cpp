@@ -138,11 +138,11 @@ NtpTime::tick(void)
 #if TIME_INCLUDEDATE
 
 boolean 
-NtpTime::isLeapYear(int year) {
-	return ((year % 4) == 0) && ((year % 100) != 0) || ((year % 400) == 0);
+NtpTime::isLeapYear(int const year) {
+	return (((year % 4) == 0) && ((year % 100) != 0)) || ((year % 400) == 0);
 }
 
-char const * const
+char *
 NtpTime::wdayString(uint8_t const wday)
 {
 	char * wdays[] = { "error", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
@@ -152,7 +152,7 @@ NtpTime::wdayString(uint8_t const wday)
 	return wdays[0];
 }
 
-char const * const
+char *
 NtpTime::monthString(uint8_t const month)
 {
 	char * months[] = { "error", "January", "February", "March", "April", "May", "June", "July", "August", "September",
