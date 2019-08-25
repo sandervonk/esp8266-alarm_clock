@@ -153,7 +153,9 @@ loop()
 
 		oled.setCursor(0, SSD1306_LCDHEIGHT - 8);
 		if (alarm.status == GoogleCalEvent::alarmNotSet) {
-			oled.print("No alarm set");
+			oled.printf("%s %s %u, %u", ntpTime.wdayString(time.wday), ntpTime.monthString(time.month),
+				time.day, time.year);
+			//oled.print("No alarm set");
 		} else {
 			oled.print(alarmHour); oled.print(":");
 			if (alarmMinute < 10) {
